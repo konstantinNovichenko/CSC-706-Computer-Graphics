@@ -1,3 +1,5 @@
+// CSC 706 HW 2 Part 2
+// Robert Kigobe, Dominic Klusek, Novichenko Konstantin
 #define _USE_MATH_DEFINES
 #include <GL/glut.h> // (or others, depending on the system in use)
 #include <cmath>
