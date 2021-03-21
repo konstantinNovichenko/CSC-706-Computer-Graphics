@@ -16,97 +16,60 @@ void init(void)
 	gluOrtho2D(0.0, WINDOW_HEIGHT, 0.0, WINDOW_WIDTH);
 }
 
+// Draw a circle or part of the circle
+void drawCircle(int originX, int originY, int start, int end, int radius)
+{
+	glBegin(GL_POLYGON);
+	glVertex2d(originX, originY);
+	for (double i = start; i <= end; i++)
+	{
+		glVertex2d(originX + cos((i * M_PI) / 180) * radius, originY + sin((i * M_PI) / 180) * radius);
+	}
+	glEnd();
+}
 // Render Yin Yang centered in the screen
 void drawYinYang(void)	
 {
 	glClear(GL_COLOR_BUFFER_BIT); // Clear display window.	
 	
-	// *******************Black half circle (upper half)*******************
-	glColor3f(0.0, 0.0, 0.0);
-	glBegin(GL_POLYGON);
+	// *******************Black half circle (upper half)*******************	
+	glColor3f(0.0, 0.0, 0.0); // Set color	
 	// Center in the middle of the screen usign window height and width divided by half as a coordinates
 	double centerX = WINDOW_HEIGHT / 2, centerY = WINDOW_WIDTH / 2;
 	// Set radius to a third size of the screen
 	double	radius = WINDOW_WIDTH / 3;
-	glVertex2d(centerX, centerY);
-	glColor3f(0.0, 0.0, 0.0);	
-
 	// Render upper half circle (0 to 180 degrees)
-	for (double i = 0; i <= 180; i++)
-	{
-		glVertex2d(centerX + cos((i * M_PI) / 180) * radius, centerY + sin((i * M_PI) / 180) * radius);
-	}
-	glEnd();
+	drawCircle(centerX, centerY, 0, 180, radius);
 
 	// *******************White half circle (lower half)*******************
-	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_POLYGON);
-	glVertex2d(centerX, centerY);
-	glColor3f(1.0, 1.0, 1.0);
-
+	glColor3f(1.0, 1.0, 1.0); // Set color
 	// Render lower half circle (180 to 360 degrees)
-	for (double i = 180; i <= 360; i++)
-	{
-		glVertex2d(centerX + cos((i * M_PI) / 180) * radius, centerY + sin((i * M_PI) / 180) * radius);
-	}
-	glEnd();
+	drawCircle(centerX, centerY, 180, 360, radius);
 
 	// *******************Black circle on the left side with the radius half of the original radius*******************
-	glColor3f(0.0, 0.0, 0.0);
-	glBegin(GL_POLYGON);
-	int radius_m = radius / 2; // set the radius to be a half of the original radius
-	centerX = (double)(WINDOW_WIDTH / 2) - radius_m; // shift the origin to	the left
-	glVertex2d(centerX, centerY);
-	glColor3f(0.0, 0.0, 0.0);
-
+	glColor3f(0.0, 0.0, 0.0); // Set color	
+	int radius_m = radius / 2; // Set the radius to be a half of the original radius
+	centerX = (double)(WINDOW_WIDTH / 2) - radius_m; // Shift the origin to	the left
 	// Render left medium circle
-	for (double i = 0; i <= 360; i++)
-	{
-		glVertex2d(centerX + cos((i * M_PI) / 180) * radius_m, centerY + sin((i * M_PI) / 180) * radius_m);
-	}
-	glEnd();
+	drawCircle(centerX, centerY, 0, 360, radius_m);
 
-	// *******************White circle on the right side with the radius half of the original radius*******************
-	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_POLYGON);
-	centerX = (double)(WINDOW_WIDTH / 2) + radius_m; // shift the origin to	the right
-	glVertex2d(centerX, centerY);
-	glColor3f(1.0, 1.0, 1.0);
-
+	// *******************White circle on the right side with the radius half of the original radius*******************	
+	glColor3f(1.0, 1.0, 1.0); // Set color
+	centerX = (double)(WINDOW_WIDTH / 2) + radius_m; // shift the origin to	the right	
 	// Render right medium circle
-	for (double i = 0; i <= 360; i++)
-	{
-		glVertex2d(centerX + cos((i * M_PI) / 180) * radius_m, centerY + sin((i * M_PI) / 180) * radius_m);
-	}
-	glEnd();
+	drawCircle(centerX, centerY, 0, 360, radius_m);
 
 	// *******************Black small circle on the right side with the radius 1/8 of the original radius*******************
-	glColor3f(0.0, 0.0, 0.0);
-	glBegin(GL_POLYGON);
+	glColor3f(0.0, 0.0, 0.0); // Set color
 	int radius_s = radius / 8;
-	glVertex2d(centerX, centerY); // use the same origin (shifted to the right)
-	glColor3f(0.0, 0.0, 0.0);
-
 	// Render right small circle
-	for (double i = 0; i <= 360; i++)
-	{
-		glVertex2d(centerX + cos((i * M_PI) / 180) * radius_s, centerY + sin((i * M_PI) / 180) * radius_s);
-	}
-	glEnd();
+	drawCircle(centerX, centerY, 0, 360, radius_s);
 
 	// *******************White small circle on the left side with the radius 1/8 of the original radius*******************
-	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_POLYGON);
+	glColor3f(1.0, 1.0, 1.0); // Set color
 	centerX = (double)(WINDOW_WIDTH / 2) - radius_m; // shift the origin to	the left
-	glVertex2d(centerX, centerY);
-	glColor3f(1.0, 1.0, 1.0);
-
 	// Render left small circle
-	for (double i = 0; i <= 360; i++)
-	{
-		glVertex2d(centerX + cos((i * M_PI) / 180) * radius_s, centerY + sin((i * M_PI) / 180) * radius_s);
-	}
-	glEnd();	
+	drawCircle(centerX, centerY, 0, 360, radius_s);
 
 	glFlush(); // Process all OpenGL routines as quickly as possible.
 }
